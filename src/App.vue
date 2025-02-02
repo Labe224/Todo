@@ -1,0 +1,82 @@
+<template>
+    <Header :tache="taches" @reach="rechercher"></Header>
+    <Body :tache="tabfilter" @supp="supprimer" @ajout="envoie"></Body>
+  </template>
+  
+  <script setup>
+  import Header from './components/Header.vue'
+  import Body from './components/body.vue'
+  import { ref } from 'vue'
+  
+  const taches = ref([])  // Liste des tâches initiale
+  const tabfilter = ref([])  // Liste des tâches filtrées
+  
+  // Récupérer les données de l'API
+  async function recupere() {
+      const reponse = await fetch('http://127.0.0.1:8000/')
+      if (reponse.ok === true) {
+          const data = await reponse.json()
+          taches.value = data.taches  // Stocke les tâches récupérées
+          tabfilter.value = [...taches.value] // Initialise tabfilter avec toutes les tâches copie sans lié les deux réferences   
+        } else {
+          throw new Error("Impossible de contacter le serveur");
+      }
+  }
+  
+  recupere()
+  
+  // Envoi de données à l'API
+  async function envoie(objet) {
+     
+      console.log(objet)
+  
+      try {
+          const r = await fetch('http://127.0.0.1:8000/a', {
+              method: 'POST',
+              headers: {
+                  'Content-Type': 'application/json',
+              },
+              body: JSON.stringify(objet),
+          });
+  
+          if (r.ok) {
+              console.log("Bien reçu");
+              const reponse = await r.json();
+              console.log(reponse);
+              recupere()
+          } else {
+              throw new Error('Impossible d\'ajouter du contenu au serveur');
+          }
+  
+      } catch (error) {
+          console.error(error.message);
+      }
+  }
+  // Supprimer une tâche
+  async function supprimer(tache) {
+      console.log(tache.id)
+      const url = 'http://127.0.0.1:8000/' + tache.id
+      const d = await fetch(url, {
+          method: 'DELETE',
+      })
+      if (d.ok === true) {
+          console.log("suppression réussi")
+      } else {
+          throw new Error("Erreur de suppression");
+      }
+      recupere()
+  }
+  
+  // Fonction de recherche
+  function rechercher(params) {
+      tabfilter.value = taches.value.filter(tache =>
+          tache.nom.toLowerCase().includes(params.toLowerCase())
+      );
+  }
+  
+  </script>
+  
+  <style scoped>
+  /* Ton style ici */
+  </style>
+  
