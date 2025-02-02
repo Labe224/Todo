@@ -1,4 +1,7 @@
 @import "tailwindcss";
+body {
+    background-color: red
+}
 .div{
     @apply bg-zinc-200 w-190 flex h-15 shadow-md items-center gap-10 pl-1.5   m-auto mt-2;
     font-size: 18px;
