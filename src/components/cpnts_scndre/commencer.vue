@@ -1,6 +1,6 @@
 <template>
 
-    <div class="w-full h-1/1 bg-zinc-200 absolute top-0 " v-if="is_visible">
+    <div class="w-full h-1/1 bg-zinc-200 absolute top-10 " v-if="is_visible">
         <h1 class="text-center text-2xl font-bold font-serif p-4"> Tache en cours: {{ tache.nom }}</h1>
         <div class=" flex flex-col w-2/3 m-auto text-center" >
          <span class="span"> <b>Date de debut:</b> Aujourd'hui </span>
@@ -11,8 +11,8 @@
 
          <div> 
             <hr class="w-full mt-5">
-           <h1 class="text-center font-semibold p-5 font-serif" style="font-size: 19px ;">Temps restant </h1>
-           <div class="w-120 h-50 bg-amber-100 m-auto rounded-full border-2 border-black flex justify-center items-center">
+           <h1 class="text-center font-semibold p-5 font-serif " style="font-size: 19px ;">Temps restant </h1>
+           <div class="w-120 h-50 bg-amber-100 m-auto rounded-full border-2 border-black flex justify-center items-center max-phone:w-80">
                <span class="time_">{{ parseInt(tache.duree) }}</span> <span class="label_time">H</span>
                <span class="time_">{{ parseInt((tache.duree*60)%60) }}</span> <span class="label_time">Min</span>
                <span class="time_">00</span> <span class="label_tim">S</span>

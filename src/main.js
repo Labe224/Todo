@@ -1,4 +1,7 @@
-import './assets/style.css'
+import './assets/style.css' 
+
+import '@fortawesome/fontawesome-free/css/all.css' // importation de fontawesome pour les icones 
+
 import { createApp } from 'vue';
 import App from './App.vue';  // Assure-toi que le nom du composant est "App" avec une majuscule
 

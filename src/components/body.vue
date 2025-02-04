@@ -1,20 +1,28 @@
 <template>
-  <div :id="liste_tache">
+  <div :id="liste_tache" class="bg-red-200 w-full max-tab:w-full">
   <h1 class="text-black text-center text-2xl pt-2 font-bold">Liste de vos Tâches</h1>
-  <ul class="mt-10" v-for="tache in props.tache" >
+  <ul class="mt-10 w-full" v-for="tache in props.tache" >
     <li :key="tache.id" class="flex m-2 justify-between">
      <div > <span class="pl-2 font-bold font-serif text-center w-1/2">{{ tache.nom}} </span>
     </div>
-      <div class="flex justify-between w-1/2 item-center ">
+      <div class="flex justify-between w-1/2 item-center max-tab:justify-around">
       <span class="">{{ tache.debut }}</span>
-      <button @click="details_fn(tache.id)" class=" hover:bg-green-600 transition duration-300 bg-green-700 text-white p-1 text-center hover:cursor-pointer shadow-md">Détails</button>
-      <button class=" hover:bg-blue-400  transition duration-300 bg-blue-200 text-white text-center p-1 hover:cursor-pointer shadow-md" @click="start(tache)">Commencer</button>
-      <button class="  hover:bg-red-900 transition duration-300 bg-red-800 text-white p-1 text-center hover:cursor-pointer shadow-md" @click="supprimerTache(tache)">
+      <button @click="details_fn(tache.nom)" class=" btn_details">Détails</button>
+      <button class=" btn_commencer" @click="start(tache)">Commencer</button>
+      <button class=" btn_supprimer  " @click="supprimerTache(tache)">
         Supprimer
       </button>
+      <div class="pop_up absolute w-50 bg-white p-5 mb-10 hidden mt-7" :class="tache.nom">
+        <ul class="w-full font-bold ">
+          <li class="items text-green-300" @click="details_fn(tache.nom)">Details</li>
+          <li class="items text-blue-300" @click="start(tache)">commencer</li>
+          <li class="items text-red-300" @click="supprimerTache(tache)">supprimer</li>
+        </ul>
+      </div>
+      <div class="hidden max-tab:block"><i class="fas fa-bars " @click="affiche_pup(tache.nom)"></i></div>
     </div>
     </li>
-    <div :id="tache.id" class="det">
+    <div :class="tache.nom" class="det">
     <div class=" flex flex-col w-2/3 m-auto text-center" >
         <span class="span"><b>Nom :</b> {{ tache.nom }}</span>
          <span class="span"> <b>Date de debut : </b>{{ tache.debut }}</span>
@@ -22,6 +30,7 @@
         <span class="span"><b>Catégorie : </b>{{ tache.categorie }}</span>
         <span class="span"><b>Description : </b> {{ tache.description }}</span>
       </div>
+      <button class="hidden max-tab:block text-center text-zinc-600 m-auto font-bold border-1 bg-amber-100 p-1 my-2 shadow-md" @click="details_fn(tache.nom)">masquer</button>
     </div>
     <hr class="w-full" />
   </ul>
@@ -51,6 +60,12 @@ const props = defineProps({
     required: true,
   },
 });
+
+function affiche_pup(params) {
+  const ma_div=document.getElementsByClassName(params)
+  ma_div[0].classList.toggle('hidden')
+  
+}
 
 // Déclarer l'événement 'supp' que ce composant va émettre
 
@@ -122,8 +137,11 @@ function afficher_form() {
 // Fonction qui permet d'afficher et de masquer les détails 
 
 function details_fn(params) {
- let div=document.getElementById(params)
- div.classList.toggle('det')
+
+ let div=document.getElementsByClassName(params)
+ div[1].classList.toggle('det')
+ affiche_pup(params)
+ 
 
 }
 function getTodayDate() {
