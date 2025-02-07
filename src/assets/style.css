@@ -6,13 +6,6 @@
     --breakpoint-tab:790px;
     --breakpoint-phone:548px;
 }
-
-html, body {
-    margin: 0;
-    padding: 0;
-    width: 100;
-    box-sizing: border-box;
-  }
   
 
 .btn_details{
