@@ -36,27 +36,29 @@ html, body {
    max-tab:hidden
 }
 
-.fas{
-    
-}
+
 .items{
-    @apply pt-2
+    @apply pt-1
 }
 .div{
 
-    @apply bg-zinc-200 w-190 flex h-15 shadow-md items-center gap-10 pl-1.5   m-auto mt-2;
+    @apply bg-zinc-200 w-190 flex h-15 shadow-md items-center gap-10 pl-1.5   m-auto mt-2 max-tab:w-4/5 max-tab:mx-auto ;
     
     font-size: 18px;
     
   }
 .input{
-    @apply border-b-1 w-100
+    @apply border-b-1 w-100 max-phone:w-2/3 max-phone:mr-2
 }
 .label{
     @apply text-zinc-800
 }
+@media (width<580px) {
+    .label{
+        font-size:12px ;
+}}
 .time{
-    @apply border-b-1 w-40
+    @apply border-b-1 w-1/4
 }
 .time:focus{
     @apply border-b-2
