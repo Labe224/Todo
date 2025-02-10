@@ -1,6 +1,6 @@
 <template>
     <Header :tache="taches" @reach="rechercher"></Header>
-    <Body :tache="tabfilter" @supp="supprimer" @ajout="envoie"></Body>
+    <Body :tache="tabfilter" @supp="deleteItems" @ajout="addItems"></Body>
   </template>
   
   <script setup>
@@ -8,11 +8,26 @@
   import Body from './components/body.vue'
   import { ref } from 'vue'
   
-  const taches = ref([])  // Liste des tâches initiale
+  const taches=ref([{
+   'id':0,
+  'nom':'Vendre des jouer',
+  'duree':12,
+  "debut":'12-07-2002',
+  'categorie':'Important',
+  'description':''
+}])   // Liste des tâches initiale
+
+  taches.value=JSON.parse(localStorage.getItem("taches")) || taches.value
+  const tache=JSON.parse(localStorage.getItem('taches')) || [...taches.value]
+  console.log(tache)
+
   const tabfilter = ref([])  // Liste des tâches filtrées
+
+  tabfilter.value=JSON.parse(localStorage.getItem("taches"))
+  
   
   // Récupérer les données de l'API
-  async function recupere() {
+ /* async function recupere() {
       const reponse = await fetch('http://127.0.0.1:8000/')
       if (reponse.ok === true) {
           const data = await reponse.json()
@@ -22,14 +37,27 @@
           throw new Error("Impossible de contacter le serveur");
       }
   }
-  
-  recupere()
+
+  recupere()*/
+  tabfilter.value =  [... taches.value]
+  // fonction qui permet d'ajouter sans passer par l'API
+
+  function addItems(objet){
+    const id=taches.value.length
+    objet.id=id
+    taches.value.push(objet)
+    localStorage.setItem("taches",JSON.stringify(taches.value))
+    tabfilter.value = JSON.parse(localStorage.getItem("taches"))
+    
+    
+  }
+
   
   // Envoi de données à l'API
-  async function envoie(objet) {
+ /* async function envoie(objet) {
      
       console.log(objet)
-  
+    
       try {
           const r = await fetch('http://127.0.0.1:8000/a', {
               method: 'POST',
@@ -51,9 +79,17 @@
       } catch (error) {
           console.error(error.message);
       }
+  }*/
+
+  // supprimer taches 
+  function deleteItems(tache){
+    tabfilter.value.pop(tache)
+    taches.value.pop(tache)
+    localStorage.setItem("taches",JSON.stringify(taches.value))
+    
   }
   // Supprimer une tâche
-  async function supprimer(tache) {
+  /*async function supprimer(tache) {
       console.log(tache.id)
       const url = 'http://127.0.0.1:8000/' + tache.id
       const d = await fetch(url, {
@@ -65,7 +101,7 @@
           throw new Error("Erreur de suppression");
       }
       recupere()
-  }
+  } */
   
   // Fonction de recherche
   function rechercher(params) {
@@ -77,6 +113,6 @@
   </script>
   
   <style scoped>
-  /* Ton style ici */
+  
   </style>
   

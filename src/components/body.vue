@@ -3,18 +3,18 @@
   <h1 class="text-black text-center text-2xl pt-2 font-bold">Liste de vos Tâches</h1>
   <ul class="mt-10 w-full" v-for="tache in props.tache" >
     <li :key="tache.id" class="flex m-2 justify-between">
-     <div > <span class="pl-2 font-bold font-serif text-center w-1/2">{{ tache.nom}} </span>
+     <div > <span class="pl-2 font-bold font-serif text-center w-1/2">{{ tache.nom }} </span>
     </div>
       <div class="flex justify-between w-1/2 item-center max-tab:justify-around">
       <span class="">{{ tache.debut }}</span>
-      <button @click="details_fn(tache.nom)" class=" btn_details">Détails</button>
+      <button @click="details_fn(tache.nom,1)" class=" btn_details">Détails</button>
       <button class=" btn_commencer" @click="start(tache)">Commencer</button>
       <button class=" btn_supprimer  " @click="supprimerTache(tache)">
         Supprimer
       </button>
       <div class="pop_up absolute w-50 bg-white p-5 mb-10 hidden mt-7" :class="tache.nom">
         <ul class="w-full font-bold ">
-          <li class="items text-green-300" @click="details_fn(tache.nom)">Details</li>
+          <li class="items text-green-300" @click="details_fn(tache.nom,0)">Details</li>
           <li class="items text-blue-300" @click="start(tache)">commencer</li>
           <li class="items text-red-300" @click="supprimerTache(tache)">supprimer</li>
         </ul>
@@ -86,8 +86,9 @@ const heure=ref(0)
 const min =ref(0)
 
 const taches=ref({
+   'id':2,
   'nom':'',
-  'durre':0,
+  'duree':0,
   "debut":'',
   'categorie':'',
   'description':''
@@ -96,28 +97,17 @@ const taches=ref({
 
 function ajouter(){
 
-  taches.value.durre=heure.value+(min.value/60)
+  taches.value.duree=heure.value+(min.value/60)
 
   taches.value.deb=""+taches.value.deb
 
-  if (taches.value.nom && taches.value.durre && taches.value.debut && taches.value.categorie) { 
+  if (taches.value.nom && taches.value.duree && taches.value.debut && taches.value.categorie) { 
     const today=getTodayDate()
   if (today>taches.value.deb)
       alert("Il y'a un problème avec la date que vous avez définis")
 
   else{   
-
    emit('ajout',taches.value)
-
-   taches.value.nom=''
-
-   heure.value=0; min.value=0; 
-
-   taches.value.debut=0; 
-
-   taches.value.categorie=''
-   
-   taches.value.description=''
 
   liste_tache.value=''// on réaffiche la liste de nos taches 
 
@@ -136,10 +126,11 @@ function afficher_form() {
 
 // Fonction qui permet d'afficher et de masquer les détails 
 
-function details_fn(params) {
+function details_fn(params,params2) {
 
  let div=document.getElementsByClassName(params)
  div[1].classList.toggle('det')
+ if (params2==0)
  affiche_pup(params)
  
 
@@ -151,7 +142,9 @@ function getTodayDate() {
   const day = String(today.getDate()).padStart(2, '0');
   return `${year}-${month}-${day}`;
 }
-const tache=ref('{}')
+const tache=ref('{}') 
+
+// fonction qui permet de commencer une tâche 
 function start(params) {
   const today=getTodayDate();
   console.log(today)
