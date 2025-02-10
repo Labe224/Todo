@@ -1,6 +1,11 @@
 <template>
+ 
+  
   <div :id="liste_tache" class="bg-red-200 w-full max-tab:w-full">
   <h1 class="text-black text-center text-2xl pt-2 font-bold">Liste de vos Tâches</h1>
+  <h1 v-if="props.tache.length==0" class="text-center font-bold pt-12">
+    Vous n'avez aucune taches encore
+  </h1>
   <ul class="mt-10 w-full" v-for="tache in props.tache" >
     <li :key="tache.id" class="flex m-2 justify-between">
      <div > <span class="pl-2 font-bold font-serif text-center w-1/2">{{ tache.nom }} </span>
@@ -99,11 +104,9 @@ function ajouter(){
 
   taches.value.duree=heure.value+(min.value/60)
 
-  taches.value.deb=""+taches.value.deb
-
   if (taches.value.nom && taches.value.duree && taches.value.debut && taches.value.categorie) { 
     const today=getTodayDate()
-  if (today>taches.value.deb)
+  if (today>taches.value.debut)
       alert("Il y'a un problème avec la date que vous avez définis")
 
   else{   

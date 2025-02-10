@@ -8,14 +8,7 @@
   import Body from './components/body.vue'
   import { ref } from 'vue'
   
-  const taches=ref([{
-   'id':0,
-  'nom':'Vendre des jouer',
-  'duree':12,
-  "debut":'12-07-2002',
-  'categorie':'Important',
-  'description':''
-}])   // Liste des tâches initiale
+  const taches=ref([{}])   // Liste des tâches initiale
 
   taches.value=JSON.parse(localStorage.getItem("taches")) || taches.value
   const tache=JSON.parse(localStorage.getItem('taches')) || [...taches.value]
