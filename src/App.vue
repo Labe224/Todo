@@ -8,7 +8,7 @@
   import Body from './components/body.vue'
   import { ref } from 'vue'
   
-  const taches=ref([{}])   // Liste des tâches initiale
+  const taches=ref([])   // Liste des tâches initiale
 
   taches.value=JSON.parse(localStorage.getItem("taches")) || taches.value
 
