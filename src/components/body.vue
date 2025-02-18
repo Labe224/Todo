@@ -6,7 +6,7 @@
   <h1 v-if="props.tache.length==0" class="text-center font-bold pt-12">
     Vous n'avez aucune taches encore
   </h1>
-  <ul class="mt-10 w-full" v-for="tache in props.tache" >
+  <ul class="mt-10 w-full" v-for="tache in filteredTaches" >
     <li :key="tache.id" class="flex m-2 justify-between">
      <div > <span class="pl-2 font-bold font-serif text-center w-1/2">{{ tache.nom }} </span>
     </div>
@@ -51,7 +51,7 @@
 
 <script setup>
 
-import { provide, ref } from 'vue';
+import { provide, ref, computed } from 'vue';
 
 import Commencer from './cpnts_scndre/commencer.vue';
 
@@ -65,6 +65,11 @@ const props = defineProps({
     required: true,
   },
 });
+
+const filteredTaches = computed(() => {
+  return props.tache.filter(tache => tache.debut >= getTodayDate());
+})
+
 
 function affiche_pup(params) {
   const ma_div=document.getElementsByClassName(params)
@@ -110,7 +115,19 @@ function ajouter(){
       alert("Il y'a un problème avec la date que vous avez définis")
 
   else{   
+    // on emet l'evenement ajout au coposant parents App.vue
+
    emit('ajout',taches.value)
+
+ 
+ // On réinitialise l'affiche au niveau du formulaire 
+
+  taches.value.nom=''
+  taches.value.debut=''
+  taches.value.categorie=''
+  min.value=0
+  heure.value=0
+
 
   liste_tache.value=''// on réaffiche la liste de nos taches 
 

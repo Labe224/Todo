@@ -8,15 +8,14 @@
   import Body from './components/body.vue'
   import { ref } from 'vue'
   
-  const taches=ref([{}])   // Liste des tâches initiale
+  const taches=ref([])   // Liste des tâches initiale
 
   taches.value=JSON.parse(localStorage.getItem("taches")) || taches.value
-  const tache=JSON.parse(localStorage.getItem('taches')) || [...taches.value]
-  console.log(tache)
+
 
   const tabfilter = ref([])  // Liste des tâches filtrées
 
-  tabfilter.value=JSON.parse(localStorage.getItem("taches"))
+  tabfilter.value=[...taches.value]
   
   
   // Récupérer les données de l'API
@@ -32,10 +31,10 @@
   }
 
   recupere()*/
-  tabfilter.value =  [... taches.value]
   // fonction qui permet d'ajouter sans passer par l'API
 
   function addItems(objet){
+    taches.value=JSON.parse(localStorage.getItem("taches"))
     const id=taches.value.length
     objet.id=id
     taches.value.push(objet)
@@ -45,6 +44,7 @@
     
   }
 
+  
   
   // Envoi de données à l'API
  /* async function envoie(objet) {
@@ -76,8 +76,9 @@
 
   // supprimer taches 
   function deleteItems(tache){
-    tabfilter.value.pop(tache)
-    taches.value.pop(tache)
+    let indice=tache.id
+    tabfilter.value.splice(indice,1)
+    taches.value.splice(indice,1)
     localStorage.setItem("taches",JSON.stringify(taches.value))
     
   }
@@ -98,6 +99,7 @@
   
   // Fonction de recherche
   function rechercher(params) {
+      taches.value=JSON.parse(localStorage.getItem('taches'))
       tabfilter.value = taches.value.filter(tache =>
           tache.nom.toLowerCase().includes(params.toLowerCase())
       );
