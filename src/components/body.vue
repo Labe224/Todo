@@ -111,6 +111,14 @@ function ajouter(){
 
   else{   
    emit('ajout',taches.value)
+   taches.value.nom='' 
+    taches.value.duree=0
+    taches.value.debut =''
+    taches.value.categorie=''
+    taches.value.description=''
+    min.value=0
+    heure.value=0
+ 
 
   liste_tache.value=''// on réaffiche la liste de nos taches 
 
