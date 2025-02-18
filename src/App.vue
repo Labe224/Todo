@@ -11,12 +11,10 @@
   const taches=ref([{}])   // Liste des tâches initiale
 
   taches.value=JSON.parse(localStorage.getItem("taches")) || taches.value
-  const tache=JSON.parse(localStorage.getItem('taches')) || [...taches.value]
-  console.log(tache)
 
   const tabfilter = ref([])  // Liste des tâches filtrées
 
-  tabfilter.value=JSON.parse(localStorage.getItem("taches"))
+  
   
   
   // Récupérer les données de l'API
@@ -32,16 +30,15 @@
   }
 
   recupere()*/
-  tabfilter.value =  [... taches.value]
+  tabfilter.value = JSON.parse(localStorage.getItem("taches")) || [... taches.value]
   // fonction qui permet d'ajouter sans passer par l'API
 
   function addItems(objet){
-    const id=taches.value.length
+    const id=tabfilter.value.length
     objet.id=id
     taches.value.push(objet)
     localStorage.setItem("taches",JSON.stringify(taches.value))
     tabfilter.value = JSON.parse(localStorage.getItem("taches"))
-    
     
   }
 
