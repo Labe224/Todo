@@ -10,20 +10,15 @@
   
   const taches=ref([])   // Liste des tâches initiale
 
-  taches.value=JSON.parse(localStorage.getItem("taches")) || taches.value
-<<<<<<< HEAD
+  taches.value=JSON.parse(localStorage.getItem('taches')) || taches.value
+
 
 
   const tabfilter = ref([])  // Liste des tâches filtrées
 
   tabfilter.value=[...taches.value]
-=======
 
-  const tabfilter = ref([])  // Liste des tâches filtrées
 
-  
->>>>>>> 42e59dcd3bfdf46a082a7d08d9c395aea88188c7
-  
   
   // Récupérer les données de l'API
  /* async function recupere() {
@@ -38,19 +33,11 @@
   }
 
   recupere()*/
-<<<<<<< HEAD
   // fonction qui permet d'ajouter sans passer par l'API
 
   function addItems(objet){
-    taches.value=JSON.parse(localStorage.getItem("taches"))
+    taches.value=JSON.parse(localStorage.getItem("taches")) || taches.value
     const id=taches.value.length
-=======
-  tabfilter.value = JSON.parse(localStorage.getItem("taches")) || [... taches.value]
-  // fonction qui permet d'ajouter sans passer par l'API
-
-  function addItems(objet){
-    const id=tabfilter.value.length
->>>>>>> 42e59dcd3bfdf46a082a7d08d9c395aea88188c7
     objet.id=id
     taches.value.push(objet)
     localStorage.setItem("taches",JSON.stringify(taches.value))
@@ -90,9 +77,10 @@
 
   // supprimer taches 
   function deleteItems(tache){
-    let indice=tache.id
-    tabfilter.value.splice(indice,1)
-    taches.value.splice(indice,1)
+    taches.value=JSON.parse(localStorage.getItem('taches'))
+    let index = taches.value.findIndex(task => task.id === tache.id);
+    tabfilter.value.splice(index,1)
+    taches.value.splice(index,1)
     localStorage.setItem("taches",JSON.stringify(taches.value))
     
   }
